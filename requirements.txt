@@ -2,3 +2,4 @@ streamlit
 python-dotenv
 azure-identity
 azure-ai-projects
+PyPDF2
