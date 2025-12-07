@@ -16,12 +16,12 @@ processed_folder = os.path.join(workspace_root, "documents", "processed")
 def load_invoice_records():
     invoice_records = load_raw_invoices(raw_folder)
     df = pd.DataFrame(invoice_records)
-    st.session_state["invoice_df"] = df
-    st.success(f"Loaded {len(df)} invoices from local folder.")
-    # Show table if loaded
-    if "invoice_df" in st.session_state:
-        st.subheader("Invoices Table")
-        st.dataframe(st.session_state["invoice_df"])
+    st.session_state["invoice_df"] = df    
+
+
+# Process selected invoice
+def process_invoice(selected_item_name):
+    st.write(f"Processing invoice: {selected_item_name}")
 
 
 def main():
@@ -31,6 +31,28 @@ def main():
     st.sidebar.header("Actions")
     if st.sidebar.button("🔃 Load Invoices"):
         load_invoice_records()
+    
+    # Show table if loaded
+    if "invoice_df" in st.session_state:        
+        st.subheader("Invoices Table")
+        st.success(f"Loaded {len(st.session_state['invoice_df'])} invoices from local folder.")        
+        st.dataframe(st.session_state["invoice_df"])
+        
+        # Get unique item names from the dataframe
+        df = st.session_state["invoice_df"]
+        if "Name" in df.columns and len(df) > 0:
+            item_names = df["Name"].unique().tolist()
+            
+            # Create selectbox with a key to maintain state
+            selected_item = st.selectbox(
+                "Select an item:",
+                options=item_names,
+                key="selected_item_name"
+            )
+            
+            # Add Process button
+            if st.button("Process"):
+                process_invoice(selected_item)
 
 
 if __name__ == "__main__":
