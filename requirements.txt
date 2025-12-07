@@ -1,5 +1,4 @@
 streamlit
 python-dotenv
 azure-identity
-azure-storage-blob
 azure-ai-projects
