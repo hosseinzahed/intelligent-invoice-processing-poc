@@ -3,7 +3,7 @@
 A proof-of-concept application demonstrating intelligent invoice processing using Azure AI services. This project combines Azure OpenAI's GPT-4.1 model for document classification and Azure Document Intelligence for structured data extraction from invoices.
 
 <p align="center">
-  <kbd><img src="screenshot.png" alt="Application Screenshot" width="600px" style="border-radius: 10px; border: solid 1px #1B5E20"></kbd>
+  <kbd><img src="screenshot.png" alt="Application Screenshot" width="600px"></kbd>
 </p>
 
 ## 🎯 Project Overview
