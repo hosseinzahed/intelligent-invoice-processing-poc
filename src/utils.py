@@ -1,23 +1,41 @@
 import os
-import io
 import base64
-from PyPDF2 import PdfReader
-import fitz  # PyMuPDF
+from PyPDF2 import PdfReader  # PyPDF2 is used to read PDF files
+import fitz  # PyMuPDF is used to convert PDF pages to images
+import numpy as np
+import base64
+from typing import Union
 
-# Get the number of pages in a PDF file
 
+def get_pdf_page_count(pdf_path: str) -> Union[int, None]:
+    """ Returns the number of pages in a PDF file, or 
+        None if the file cannot be read. 
 
-def get_pdf_page_count(pdf_path):
+    Args:
+        pdf_path (str): The path to the PDF file.
+    Returns:
+        Union[int, None]: The number of pages in the PDF,
+                          or None if the file cannot be read.
+    """
+
     try:
         reader = PdfReader(pdf_path)
         return len(reader.pages)
     except Exception:
         return None
 
-# Load raw invoice files from a folder
 
+def load_invoices(folder_path: str):
+    """ Load invoice files from a folder and return a 
+        list of dictionaries with file information. 
+        Each dictionary contains the file name, size in KB, 
+        number of pages (if applicable).
+    Args:
+        folder_path (str): The path to the folder containing invoice files.
+    Returns:
+        list: A list of dictionaries with file information.
+    """
 
-def load_raw_invoices(folder_path):
     invoice_records = []
     if os.path.exists(folder_path):
         for filename in os.listdir(folder_path):
@@ -29,15 +47,20 @@ def load_raw_invoices(folder_path):
                 invoice_records.append({
                     "Name": filename,
                     "Size (KB)": size_kb,
-                    "Pages": pages,
-                    "Status": "Unprocessed"
+                    "Pages": pages
                 })
     return invoice_records
 
-# Convert PDF to images and return each page as bytes
 
-
-def pdf_to_images(pdf_path) -> list:
+def pdf_to_images(pdf_path: str) -> list:
+    """ Convert PDF to images and return each page as 
+    bytes and base64 strings. 
+    Args:
+        pdf_path (str): The path to the PDF file.
+    Returns:
+        list: A list of dictionaries containing page number,
+              bytes, and base64 strings for each page.
+    """
 
     doc = fitz.open(pdf_path)
     images = []
@@ -53,17 +76,3 @@ def pdf_to_images(pdf_path) -> list:
                 "base64": img_base64
             })
     return images
-
-
-if __name__ == "__main__":
-
-    doc = fitz.open("453-3633210941.pdf")
-    base_name = os.path.splitext(os.path.basename("453-3633210941.pdf"))[0]
-    image_paths = []
-    for page_num in range(len(doc)):
-        page = doc.load_page(page_num)
-        pix = page.get_pixmap(dpi=300)
-        image_filename = f"{base_name}_page_{page_num+1}.png"
-        image_path = os.path.join("documents/images", image_filename)
-        pix.save(image_path)
-        image_paths.append(image_path)

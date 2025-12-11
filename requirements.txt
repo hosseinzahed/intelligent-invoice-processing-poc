@@ -2,6 +2,7 @@ streamlit
 python-dotenv
 azure-identity
 azure-ai-projects
+azure-ai-documentintelligence
 PyPDF2
 agent-framework
 PyMuPDF
