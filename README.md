@@ -102,6 +102,10 @@ DOCUMENT_INTELLIGENCE_API_KEY="<your-document-intelligence-api-key>"
 - **Azure OpenAI**: Navigate to your Azure OpenAI resource in Azure Portal → Keys and Endpoint
 - **Document Intelligence**: Navigate to your Document Intelligence resource in Azure Portal → Keys and Endpoint
 
+### Azure CLI / RBAC
+
+If you authenticate with the Azure CLI using `az login` before running the application, ensure the signed-in principal has the `Cognitive Services User` role on the relevant Cognitive Services resources (Azure OpenAI and Document Intelligence). Without this role, the app may be unable to access those services even when authenticated.
+
 ### 5. Add Invoice Documents
 
 Place your invoice PDF files in the `documents` folder at the root of the project:

@@ -1,4 +1,5 @@
 import os
+from azure.identity import DefaultAzureCredential
 from azure.core.credentials import AzureKeyCredential
 from azure.ai.documentintelligence import DocumentIntelligenceClient
 from azure.ai.documentintelligence.models import AnalyzeDocumentRequest, AnalyzeResult, DocumentAnalysisFeature
@@ -14,7 +15,9 @@ class DocumentIntelligenceService:
         self.key = os.getenv("DOCUMENT_INTELLIGENCE_API_KEY")
         self.client = DocumentIntelligenceClient(
             endpoint=self.endpoint,
-            credential=AzureKeyCredential(self.key))
+            credential=DefaultAzureCredential() # Comment this line and uncomment the line below to use API key authentication instead of Azure AD authentication
+            #credential=AzureKeyCredential(self.key) # Uncomment this line to use API key authentication instead of Azure AD authentication
+        )
 
     def log_output(self, invoices: AnalyzeResult) -> None:       
         """Log detailed invoice analysis output

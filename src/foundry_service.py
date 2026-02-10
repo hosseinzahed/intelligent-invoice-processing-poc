@@ -14,7 +14,7 @@ class FoundryService:
         self.agent = AzureOpenAIChatClient(
             credential=DefaultAzureCredential(),
             endpoint=os.getenv("AI_FOUNDRY_ENDPOINT"),
-            api_key=os.getenv("AI_FOUNDRY_API_KEY"),
+            #api_key=os.getenv("AI_FOUNDRY_API_KEY"), # The API key is not needed when using DefaultAzureCredential
             deployment_name="gpt-4.1"
         ).create_agent(
             instructions="You're a document analyzer.",
